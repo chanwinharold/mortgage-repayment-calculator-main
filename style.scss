@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+* { margin: 0; box-sizing: border-box}
+
+//Primary
+$Lime: hsl(61, 70%, 52%);
+$Red: hsl(4, 69%, 50%);
+
+// Neutral
+$white: hsl(0, 0%, 100%);
+$slateA: hsl(202, 87%, 94%);
+$slateB: hsl(203, 41%, 72%);
+$slateC: hsl(200, 26%, 54%);
+$slateD: hsl(200, 24%, 40%);
+$slateE: hsl(202, 55%, 16%);
+
+// Font
+$size: 1em;
+$lighter: 500;
+$bolder: 700;
+$family: "Plus Jakarta Sans";
+
+// Mixins
+@mixin flexbox($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+body {
+    min-height: 100vh;
+    @include flexbox(column, center, center);
+    font-family: $family, sans-serif;
+    font-size: calc($size + 0.1em);
+    background-color: $slateA;
+
+    @media screen and (max-width: 668px) { footer { display: none; } }
+}
+
+.calculator {
+    background-color: $white;
+
+    /***************** Start Media Queries ***************************/
+    @media screen and (max-width: 668px) {
+        width: 100vw;
+        min-height: 100vh;
+        @include flexbox(column, space-between, flex-start);
+    }
+    @media screen and (min-width: 668px) and (max-width: 868px) { width: 95vw; }
+    @media screen and (min-width: 868px) { width: 65vw; }
+    @media screen and (min-width: 668px) {
+        @include flexbox(row, space-between, stretch);
+        border-radius: 15px;
+        margin: 2rem;
+        height: auto;
+
+        &__right-zone { border-radius: 0 15px 15px 50px; }
+        section { flex: 1; }
+    }
+    /********************** End Media Queries ************************/
+
+    &__right-zone { background-color: $slateE; }
+
+    &__left-zone {
+        @include flexbox(column, center, flex-start);
+        gap: 15px;
+        padding: 2rem;
+
+        &__header {
+            width: 100%;
+            @include flexbox(row, space-between, center);
+
+            h1 { font-size: $size; }
+
+            button {
+                border: none;
+                background-color: transparent;
+                font-weight: $lighter;
+                color: $slateD;
+                text-decoration: underline;
+                font-size: $size;
+            }
+        }
+
+        &__form {
+            @include flexbox(column, flex-start, none);
+            gap: 15px;
+
+            button {
+                width: 75%;
+                height: 40px;
+                border: none;
+                border-radius: 18px;
+                background-color: $Lime;
+                @include flexbox(row, center, center);
+                gap: 15px;
+
+                @media screen and (max-width: 668px) {
+                    align-self: center;
+                }
+
+                span {
+                    font-size: calc($size + 3px);
+                    font-weight: $bolder;
+                }
+            }
+        }
+    }
+}
+
+.calculator__left-zone__form__amount {
+    &__input {
+        position: relative;
+        span {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            background-color: $slateA;
+            padding: 0.47rem 1rem;
+            border-radius: 4px 0 0 4px;
+        }
+        input { padding-left: 60px; }
+    }
+}
+.calculator__left-zone__form__parameter {
+    @include flexbox(row, none, none);
+    gap: 20px;
+
+    @media screen and (max-width: 360px) {
+        flex-direction: column;
+    }
+
+    & > div > div {
+        position: relative;
+        span {
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            background-color: $slateA;
+            padding: 0.47rem 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        input { padding-left: 10px; }
+    }
+}
+.calculator__left-zone__form__type {
+    @include flexbox(column, none, flex-start);
+    gap: 10px;
+
+    label { font-weight: $bolder; }
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    font-size: $size;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.radio-style {
+    width: 100%;
+    @include flexbox(row, flex-start, center);
+    gap: 15px;
+    padding: 0.6rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+.calculator__empty {
+    @include flexbox(column, center, center);
+    gap: 15px;
+    padding: 2rem;
+
+    &__title {
+        color: white;
+        font-size: calc($size + 2px);
+    }
+    &__content {
+        color: $slateA;
+        font-size: calc($size - 3px);
+        text-align: center;
+    }
+}
+.calculator__results {
+    @include flexbox(column, flex-start, center);
+    gap: 15px;
+    padding: 2rem;
+
+    &__header {
+        @include flexbox(column, none, none);
+        gap: 15px;
+        h2 {
+            color: white;
+            font-size: calc($size + 2px);
+        }
+        p {
+            color: $slateA;
+            font-size: calc($size - 3px);
+            text-align: left;
+        }
+    }
+}
+.calculator__results__zone {
+    width: 100%;
+    min-height: 60%;
+    border-radius: 8px;
+    border-top: 4px solid $Lime;
+    background-color: #0b1e29;
+    @include flexbox(column, none, stretch);
+
+    &__display, &__total {
+        flex: 1;
+        margin: 0.5rem 1.5rem;
+        padding: 1rem 1rem;
+        h3 {
+            color: $slateA;
+            font-size: calc($size - 3px);
+            text-align: left;
+        }
+        p {
+            font-weight: $bolder;
+            color: white;
+            font-size: 1.2em;
+        }
+        strong {
+            font-size: 3em;
+            color: $Lime;
+
+            @media screen and (max-width: 360px) {
+                font-size: 1.2em;
+            }
+        }
+    }
+}
+
+
+fieldset { border: none; }
+legend,
+fieldset span,
+.calculator__left-zone__form__amount__label,
+.calculator__left-zone__form__parameter__term__label,
+.calculator__left-zone__form__parameter__rate__label { color: $slateD; font-size: calc($size - 3px); }
+.calculator__results__zone__total { border-top: 1px solid rgba(255, 255, 255, 0.25); }
+.attribution { font-size: 11px; text-align: center; .attribution a { color: hsl(228, 45%, 44%); } }
+.none { display: none; }
+.error { font-size: calc($size - 5px); color: $Red; }
+.inputError { border: 2px solid $Red !important; }
+.spanError { background-color: $Red !important; color: white !important;}
